@@ -17,6 +17,20 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    //400 - BAD REQ personalizado
+    @ExceptionHandler(value = {BadRequestException.class})
+    public ResponseEntity<Object> handleApiRequestException(BadRequestException e){
+
+        ApiException apiException = new ApiException(
+                e.getMessage(),
+                //e,
+                HttpStatus.BAD_REQUEST,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+    };
+
     //404 - NOT FOUND personalizado
     @ExceptionHandler(value = {NotFoundException.class})
     public ResponseEntity<Object> handleApiRequestException(NotFoundException e){

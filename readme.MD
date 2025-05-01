@@ -48,7 +48,7 @@ One client has one or more sales.
 - Get all products that have a stock less than 5
 - Get the list of products of a sale
 - Get the sum of the amount and the total number of sales of a day
-- Get the sale with the highest amount of sales and the client who made it
+- Get the sale with the highest amount of total and the client who made it
 
 ### Optional Requirements (not necessary)
 - Additional endpoints
@@ -84,7 +84,7 @@ Un cliente tiene una o varias ventas.
 - Obtener todos los productos con stock menor a 5
 - Obtener la lista de productos de una venta
 - Obtener la sumatoria del monto y tambien la cantidad total de ventas de un dia
-- Obtener la venta con el monto mas alto y el cliente que la hizo
+- Obtener la venta con el total mas alto y el cliente que la hizo
 
 ### Requerimientos Opcionales (no necesarios)
 - Endpoints adicionales

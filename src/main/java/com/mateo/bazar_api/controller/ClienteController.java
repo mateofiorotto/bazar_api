@@ -51,6 +51,14 @@ public class ClienteController {
     //Con valid, se validara el parametro de la peticion
     public ResponseEntity<?> editCliente(@Valid @RequestBody Cliente cliente, @PathVariable Long id_cliente){
         clienteService.editCliente(cliente, id_cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente editado");
+        return ResponseEntity.status(HttpStatus.OK).body("Cliente editado");
     }
+
+    //delete
+    @DeleteMapping("/clientes/eliminar/{id_cliente}")
+    public ResponseEntity<?> deleteCliente(@PathVariable Long id_cliente){
+        clienteService.deleteCliente(id_cliente);
+        return ResponseEntity.status(HttpStatus.OK).body("Cliente eliminado");
+    }
+
 }

@@ -123,3 +123,10 @@ c. En caso de llevar a cabo este punto, especificar en un documento el/los nuevo
 requerimientos planteados y sus correspondientes especificaciones técnicas
 (método HTTP, endpoint, etc). Tomar como ejemplo de plantilla para la
 especificación a las consignas de este enunciado.
+
+---
+
+Por HACER
+- El total de una venta deberia ser segun en cuantos productos este relacionada
+- DTOs, Mappers
+- Requerimientos obligatorios (lista de prods de una venta, sumatoria del monto y cantidad de ventas en un dia, venta con el total mas alto y que cliente la hizo)

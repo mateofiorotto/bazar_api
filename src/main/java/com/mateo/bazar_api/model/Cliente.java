@@ -17,13 +17,12 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_cliente;
+
     @NotEmpty(message = "El nombre no puede estar vacio")
     @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20 caracteres")
     private String nombre;
+
     @NotEmpty(message = "El apellido no puede estar vacio")
     @Size(min = 3, max = 20, message = "El apellido debe tener entre 3 y 20 caracteres")
     private String apellido;
-    @OneToMany(mappedBy = "unCliente")
-    @JsonIgnore
-    private List<Venta> listaVentas;
 }
