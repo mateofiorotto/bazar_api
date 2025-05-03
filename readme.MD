@@ -37,9 +37,7 @@ One bazaar has increased in sales. Given this and that it is almost impossible t
 - Product --> product_code, name, brand, cost, stock
 - Sale --> sale_code, date, total, products (1:n), client (1:n)
 - Client --> client_id, name, surname
-
-One sale has one or more products. <br>
-One client has one or more sales.
+- SaleProduct --> id, sale_product_code, quantity, total
 
 ### Obligatory Requirements
 - CRUD for products
@@ -71,11 +69,9 @@ del desarrollo de una aplicación que le permita realizar esta tarea.
 
 ### Modelos
 - Producto --> codigo_producto, nombre, marca, costo, cantidad_disponible
-- Venta --> codigo_venta, fecha, total, productos (1:n), clientes (1:n)
+- Venta --> codigo_venta, fecha, productos (1:n), clientes (1:n)
 - Cliente --> id_cliente, nombre, apellido
-
-Una venta tiene una o varias productos. <br>
-Un cliente tiene una o varias ventas.
+- VentaProducto --> id, codigo_venta_producto, cantidad, total
 
 ### Requerimientos Obligatorios
 - CRUD para productos

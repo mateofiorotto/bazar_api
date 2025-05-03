@@ -33,10 +33,10 @@ public class ClienteController {
 
     // Get x id
     @GetMapping("clientes/{id_cliente}")
-    public Cliente getClienteById(@PathVariable Long id_cliente){
+    public ResponseEntity<?> getClienteById(@PathVariable Long id_cliente){
         Cliente cliente = clienteService.getClienteById(id_cliente);
 
-        return cliente;
+        return ResponseEntity.ok(cliente);
     }
 
     //post

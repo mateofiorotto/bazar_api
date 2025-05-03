@@ -3,7 +3,9 @@ package com.mateo.bazar_api.service;
 import com.mateo.bazar_api.exception.BadRequestException;
 import com.mateo.bazar_api.exception.NotFoundException;
 import com.mateo.bazar_api.model.Producto;
+import com.mateo.bazar_api.model.VentaProducto;
 import com.mateo.bazar_api.repository.IProductoRepository;
+import com.mateo.bazar_api.repository.IVentaProductoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,10 +39,6 @@ public class ProductoService implements IProductoService {
 
     @Override
     public void saveProducto(Producto producto) {
-        if (producto.getCantidad_disponible() < producto.getCantidad_vendida()) {
-            throw new BadRequestException("La cantidad vendida no puede ser mayor a la cantidad disponible");
-        }
-
         productoRepository.save(producto);
     }
 
@@ -52,9 +50,6 @@ public class ProductoService implements IProductoService {
         productoEncontrado.setMarca(producto.getMarca());
         productoEncontrado.setCosto(producto.getCosto());
         productoEncontrado.setCantidad_disponible(producto.getCantidad_disponible());
-        productoEncontrado.setCantidad_vendida(producto.getCantidad_vendida());
-
-        productoEncontrado.setVenta(producto.getVenta());
 
         this.saveProducto(productoEncontrado);
 

@@ -32,10 +32,10 @@ public class VentaController {
 
     // Get x id
     @GetMapping("ventas/{id_venta}")
-    public Venta getVentaById(@PathVariable Long id_venta){
+    public ResponseEntity<?> getVentaById(@PathVariable Long id_venta){
         Venta venta = ventaService.getVentaById(id_venta);
 
-        return venta;
+        return ResponseEntity.ok(venta);
     }
 
     //post

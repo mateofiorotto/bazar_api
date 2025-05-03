@@ -33,10 +33,10 @@ public class ProductoController {
 
     // Get x id
     @GetMapping("productos/{id_producto}")
-    public Producto getProductoById(@PathVariable Long id_producto){
+    public ResponseEntity<?> getProductoById(@PathVariable Long id_producto){
         Producto producto = productoService.getProductoById(id_producto);
 
-        return producto;
+        return ResponseEntity.ok(producto);
     }
 
     //post

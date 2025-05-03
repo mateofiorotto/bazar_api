@@ -1,5 +1,6 @@
 package com.mateo.bazar_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Entity
@@ -33,14 +36,7 @@ public class Producto {
     @PositiveOrZero(message = "La cantidad disponible debe ser mayor o igual a cero")
     private int cantidad_disponible;
 
-    @NotNull(message = "La cantidad vendida no puede ser nula")
-    @PositiveOrZero(message = "La cantidad vendida debe ser mayor o igual a cero")
-    private int cantidad_vendida;
-
-    //Muchos productos pertenecen a una venta
-    //Asociamos el nombre del codigo de la venta
-    @ManyToOne
-    @JoinColumn(name="codigo_venta", nullable = false)
-    @NotNull(message = "El producto debe tener venta asignada")
-    private Venta venta;
+    @OneToMany(mappedBy = "unProducto") //Una venta tiene muchos productos, asociamos el objeto venta
+    @JsonIgnore
+    private List<VentaProducto> ventaProductos;
 }

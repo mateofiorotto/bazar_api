@@ -127,5 +127,5 @@ especificación a las consignas de este enunciado.
 ---
 
 Por HACER
-- DTOs, Mappers (y ajustar metodos)
-- Requerimientos obligatorios (sumatoria del monto y cantidad de ventas en un dia)
+- DTOs, Mappers
+- Requerimientos obligatorios (sumatoria del monto y cantidad de ventas en un dia, venta con el total mas alto y que cliente la hizo)

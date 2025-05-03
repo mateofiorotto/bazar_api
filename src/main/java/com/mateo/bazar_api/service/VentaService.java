@@ -43,8 +43,6 @@ public class VentaService implements IVentaService {
         Venta ventaEncontrada = this.getVentaById(id);
 
         ventaEncontrada.setFecha_venta(venta.getFecha_venta());
-        ventaEncontrada.setTotal(venta.getTotal());
-        ventaEncontrada.setListaProductos(venta.getListaProductos());
         ventaEncontrada.setUnCliente(venta.getUnCliente());
 
         this.saveVenta(ventaEncontrada);

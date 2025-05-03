@@ -24,13 +24,17 @@ public class Venta {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha_venta;
 
-    @NotNull(message = "El total no puede ser nulo")
-    @PositiveOrZero(message = "El total debe ser mayor o igual a cero")
-    private Double total;
+//    @NotNull(message = "El total no puede ser nulo")
+//    @PositiveOrZero(message = "El total debe ser mayor o igual a cero")
+//    private Double total;
 
-    @OneToMany(mappedBy = "venta") //Una venta tiene muchos productos, asociamos el objeto venta
+//    @OneToMany(mappedBy = "venta") //Una venta tiene muchos productos, asociamos el objeto venta
+//    @JsonIgnore
+//    private List<Producto> listaProductos;
+
+    @OneToMany(mappedBy = "unaVenta") //Una venta tiene muchos productos, asociamos el objeto venta
     @JsonIgnore
-    private List<Producto> listaProductos;
+    private List<VentaProducto> ventaProductos;
 
     //Muchas ventas las puede efectuar 1 cliente
     @OneToOne
