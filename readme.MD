@@ -57,6 +57,51 @@ One bazaar has increased in sales. Given this and that it is almost impossible t
 - Custom Exceptions (ApiException, GlobalExceptionHandler), custom error messages
 - Use ResponseEntity<?>
 
+### How to use
+1. Clone repository
+
+  ```
+  git clone https://github.com/mateofiorotto/bazar_api
+  cd bazar_api
+  ```
+
+2. Check Dependencies
+- JDK 21
+- Maven
+- IDE of your preference (I used IntelliJ IDEA)
+
+3. Database Configuration
+- Open XAMPP and start Apache and MySQL
+- Create a database with the name of your preference, for default in application.properties is "api_bazar"
+
+4. application.properties
+
+Here is an example of the configuration for local environment:
+
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/<database-name>
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+Feel free to adjust any settings to fit your local environment.
+
+- database-name --> is the database that you created in xampp
+- username --> username of your local environment or server db, for default in xampp is root
+- password --> password of your local environment or server db, for default in xampp is empty password
+
+5. Run the app
+
+Run ```./mvnw spring-boot:run``` or go to the "run button" of your IDE while you are targeting the "BazarApiApplication" class. (Main class with the @SpringBootApplication annotation)
+
+6. Test with Postman or other
+
+By default in Spring Boot, the localhost is in 8080 port.
+
+You can check all the endpoints here: ```http://localhost:8080/swagger-ui/index.html#/```
+
 ## ESP
 
 ---
@@ -90,3 +135,48 @@ del desarrollo de una aplicación que le permita realizar esta tarea.
 - Validaciones (@Valid, Anotaciones en modelos)
 - Excepciones personalizadas (ApiException, GlobalExceptionHandler), mensajes de error personalizados
 - Usar ResponseEntity<?>
+
+### Como usarlo
+1. Clone repository
+
+  ```
+  git clone https://github.com/mateofiorotto/bazar_api
+  cd bazar_api
+  ```
+
+2. Revisar dependencias
+- JDK 21
+- Maven
+- IDE de tu preferencia (yo usé IntelliJ IDEA)
+
+3. Configuración de la base de datos
+- Abre XAMPP e inicia Apache y MySQL
+- Crea una base de datos con el nombre de tu preferencia, por defecto en application.properties es "api_bazar"
+
+4. application.properties
+
+Ejemplo de la configuración del entorno local:
+
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/<database-name>
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+Ajusta a gusto las configuraciones que quieras para adaptarlo a tu entorno local.
+
+- database-name --> es la base de datos que creaste en xampp
+- username --> usuario de tu entorno local, en xampp por defecto es root
+- password --> contraseña de tu entorno local, en xampp por defecto esta vacia
+
+5. Ejecutar la app
+
+Ejecuta ```./mvnw spring-boot:run``` o presiona el boton de iniciar en tu IDE mientras estas dentro de la clase "BazarApiApplication". (Clase principal con la anotación @SpringBootApplication)
+
+6. Probar con Postman u otro
+
+Por defecto en Spring Boot, el localhost esta en el puerto 8080.
+
+Proba los endpoints acá: ```http://localhost:8080/swagger-ui/index.html#/```

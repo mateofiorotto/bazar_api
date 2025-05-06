@@ -127,6 +127,5 @@ especificación a las consignas de este enunciado.
 ---
 
 Por HACER
-- Forma de uso README, 1. crear db xampp 2. ejecutar proyecto 3. ver doc swagger
 - Swagger --> En los endpoints --> @Tag, @Operation, @Schema o Parameter
 - Dockerizar todo y subir final (opcional, puedo subirlo a railway desde github)
