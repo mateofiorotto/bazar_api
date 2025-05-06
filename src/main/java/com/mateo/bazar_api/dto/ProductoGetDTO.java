@@ -1,7 +1,7 @@
-package com.mateo.bazar_api.model;
+package com.mateo.bazar_api.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.mateo.bazar_api.model.VentaProducto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -14,15 +14,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-@Entity
-public class Producto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo_producto;
+public class ProductoGetDTO {
     private String nombre;
     private String marca;
     private Double costo;
     private int cantidad_disponible;
-    @OneToMany(mappedBy = "unProducto") //Una venta tiene muchos productos, asociamos el objeto venta
-    private List<VentaProducto> ventaProductos;
 }

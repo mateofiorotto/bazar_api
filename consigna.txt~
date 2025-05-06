@@ -127,5 +127,7 @@ especificación a las consignas de este enunciado.
 ---
 
 Por HACER
-- DTOs, Mappers
-- Requerimientos obligatorios (sumatoria del monto y cantidad de ventas en un dia, venta con el total mas alto y que cliente la hizo)
+- Intentar incluir mapper para ClienteDTO al usar post y pust en el service de ventas
+- Metodos DTO de ventaproducto y producto
+- Ajustar metodos que usen DTO personalizado
+- Dockerizar todo y subir final

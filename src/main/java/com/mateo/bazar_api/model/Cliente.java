@@ -1,6 +1,7 @@
 package com.mateo.bazar_api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -16,13 +17,9 @@ import java.util.List;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    //oculto la id para cuando la muestre en VentaDTO pero poder recibirla x put y post
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id_cliente;
-
-    @NotEmpty(message = "El nombre no puede estar vacio")
-    @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20 caracteres")
     private String nombre;
-
-    @NotEmpty(message = "El apellido no puede estar vacio")
-    @Size(min = 3, max = 20, message = "El apellido debe tener entre 3 y 20 caracteres")
     private String apellido;
 }

@@ -10,19 +10,15 @@ import lombok.Setter;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Entity
 public class VentaProducto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "codigo_venta", nullable = false)
     private Venta unaVenta;
-
     @ManyToOne
     @JoinColumn(name = "codigo_producto", nullable = false)
     private Producto unProducto;
-
     private Integer cantidad;
     private Double total;
 

@@ -1,5 +1,8 @@
 package com.mateo.bazar_api.controller;
 
+import com.mateo.bazar_api.dto.ProductoEditDTO;
+import com.mateo.bazar_api.dto.ProductoGetDTO;
+import com.mateo.bazar_api.dto.ProductoSaveDTO;
 import com.mateo.bazar_api.model.Producto;
 import com.mateo.bazar_api.service.IProductoService;
 import jakarta.validation.Valid;
@@ -21,7 +24,7 @@ public class ProductoController {
     // GET Productos
     @GetMapping("/productos")
     public ResponseEntity<?> getProductos() {
-        List<Producto> listaProductos = productoService.getProductos();
+        List<ProductoGetDTO> listaProductos = productoService.getProductos();
 
         // ListaProductos = empty, entonces vacia pero retornar 200. La solicitud es valida
         if (listaProductos.isEmpty()) {
@@ -34,14 +37,14 @@ public class ProductoController {
     // Get x id
     @GetMapping("productos/{id_producto}")
     public ResponseEntity<?> getProductoById(@PathVariable Long id_producto){
-        Producto producto = productoService.getProductoById(id_producto);
+        ProductoGetDTO producto = productoService.getProductoById(id_producto);
 
         return ResponseEntity.ok(producto);
     }
 
     //post
     @PostMapping("/productos/crear")
-    public ResponseEntity<?> saveProducto(@Valid @RequestBody Producto producto){
+    public ResponseEntity<?> saveProducto(@Valid @RequestBody ProductoSaveDTO producto){
         productoService.saveProducto(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Producto creado");
     }
@@ -49,7 +52,7 @@ public class ProductoController {
     //put
     @PutMapping("/productos/editar/{id_producto}")
     //Con valid, se validara el parametro de la peticion
-    public ResponseEntity<?> editProducto(@Valid @RequestBody Producto producto, @PathVariable Long id_producto){
+    public ResponseEntity<?> editProducto(@Valid @RequestBody ProductoEditDTO producto, @PathVariable Long id_producto){
         productoService.editProducto(producto, id_producto);
         return ResponseEntity.status(HttpStatus.OK).body("Producto editado");
     }
@@ -64,7 +67,7 @@ public class ProductoController {
     //get poco stock
     @GetMapping("/productos/poco-stock")
     public ResponseEntity<?> getPocoStock(){
-        List<Producto> productosPocoStock = productoService.getPocoStock();
+        List<ProductoGetDTO> productosPocoStock = productoService.getPocoStock();
 
         if (productosPocoStock.isEmpty()) {
             return ResponseEntity.ok("Todos los productos tienen 5 o mas items de stock");

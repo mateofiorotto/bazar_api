@@ -1,11 +1,16 @@
 package com.mateo.bazar_api.service;
 
+import com.mateo.bazar_api.dto.ClienteEditDTO;
+import com.mateo.bazar_api.dto.ClienteGetDTO;
+import com.mateo.bazar_api.dto.ClienteSaveDTO;
 import com.mateo.bazar_api.exception.NotFoundException;
+import com.mateo.bazar_api.mapper.ClienteMapper;
 import com.mateo.bazar_api.model.Cliente;
 import com.mateo.bazar_api.repository.IClienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService implements IClienteService {
@@ -17,42 +22,47 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public List<Cliente> getClientes() {
+    public List<ClienteGetDTO> getClientes() {
         List<Cliente> listaClientes = clienteRepository.findAll();
 
-        return listaClientes;
+        return listaClientes.stream().map(
+          cliente -> ClienteMapper.mapper.clienteToClienteGetDto(cliente)).collect(Collectors.toList());
     }
 
     @Override
-    public Cliente getClienteById(Long id) {
+    public ClienteGetDTO getClienteById(Long id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(
                 //si no encuentra al cliente, retornar un no encontrado
                 () -> new NotFoundException("Cliente no encontrado")
         );
 
-        return cliente;
+        return ClienteMapper.mapper.clienteToClienteGetDto(cliente);
     }
 
     @Override
-    public void saveCliente(Cliente cliente) {
+    public void saveCliente(ClienteSaveDTO clienteDTO) {
+        Cliente cliente = ClienteMapper.mapper.clienteSaveDtoToCliente(clienteDTO);
+        cliente.setNombre(clienteDTO.getNombre());
+        cliente.setApellido(clienteDTO.getApellido());
+
         clienteRepository.save(cliente);
     }
 
     @Override
-    public void editCliente(Cliente cliente, Long id) {
-        Cliente clienteEncontrado = this.getClienteById(id);
+    public void editCliente(ClienteEditDTO clienteDTO, Long id) {
+        Cliente clienteEncontrado = clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Cliente no encontrado"));
 
-        clienteEncontrado.setNombre(cliente.getNombre());
-        clienteEncontrado.setApellido(cliente.getApellido());
+        clienteEncontrado.setNombre(clienteDTO.getNombre());
+        clienteEncontrado.setApellido(clienteDTO.getApellido());
 
-        this.saveCliente(clienteEncontrado);
-
+        clienteRepository.save(clienteEncontrado);
     }
 
     @Override
     public void deleteCliente(Long id) {
-        Cliente clienteAEliminar = this.getClienteById(id);
+//        Cliente clienteAEliminar = this.getClienteById(id); --> no llamar al metodo x id porq devuelve dto, en este caso eliminamos la entidad
 
+        Cliente clienteAEliminar = clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Cliente no encontrado"));
         clienteRepository.delete(clienteAEliminar);
     }
 }

@@ -19,9 +19,6 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo_venta;
-
-    @NotNull(message = "La fecha no puede ser nula")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha_venta;
 
 //    @NotNull(message = "El total no puede ser nulo")
@@ -33,12 +30,10 @@ public class Venta {
 //    private List<Producto> listaProductos;
 
     @OneToMany(mappedBy = "unaVenta") //Una venta tiene muchos productos, asociamos el objeto venta
-    @JsonIgnore
     private List<VentaProducto> ventaProductos;
 
     //Muchas ventas las puede efectuar 1 cliente
     @OneToOne
     @JoinColumn(name = "id_cliente", nullable = false)
-    @NotNull(message = "La venta debe tener cliente asignado")
-    private Cliente unCliente;
+    private Cliente unCliente; //aca va a ir el clienteGet
 }

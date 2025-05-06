@@ -127,5 +127,6 @@ especificación a las consignas de este enunciado.
 ---
 
 Por HACER
-- DTOs, Mappers (y ajustar metodos)
-- Requerimientos obligatorios (sumatoria del monto y cantidad de ventas en un dia)
+- Incluir DTOs y mappers de ventaproducto
+- Ajustar metodos que usen DTO personalizado (los de venta prod)
+- Dockerizar todo y subir final

@@ -12,8 +12,8 @@ import java.util.List;
 public interface IVentaProductoService {
     public List<VentaProducto> getVentasProductos();
     public VentaProducto getVentaProductoById(Long id);
-    public void saveVentaProducto(VentaProducto venta);
-    public void editVentaProducto(VentaProducto venta, Long id);
+    public void saveVentaProducto(VentaProducto ventaProducto);
+    public void editVentaProducto(VentaProducto ventaProducto, Long id);
     public void deleteVentaProducto(Long id);
     public void manejoStock(VentaProducto ventaProducto, Producto producto);
     public List<Producto> getProductosPorVenta(Long id);

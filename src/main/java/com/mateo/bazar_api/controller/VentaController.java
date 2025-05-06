@@ -1,6 +1,8 @@
 package com.mateo.bazar_api.controller;
 
-import com.mateo.bazar_api.model.Venta;
+import com.mateo.bazar_api.dto.VentaEditDTO;
+import com.mateo.bazar_api.dto.VentaGetDTO;
+import com.mateo.bazar_api.dto.VentaSaveDTO;
 import com.mateo.bazar_api.service.IVentaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,7 @@ public class VentaController {
     // GET Ventas
     @GetMapping("/ventas")
     public ResponseEntity<?> getVentas() {
-        List<Venta> listaVentas = ventaService.getVentas();
+        List<VentaGetDTO> listaVentas = ventaService.getVentas();
 
         if (listaVentas.isEmpty()) {
             return ResponseEntity.ok("Lista vacia");
@@ -33,14 +35,14 @@ public class VentaController {
     // Get x id
     @GetMapping("ventas/{id_venta}")
     public ResponseEntity<?> getVentaById(@PathVariable Long id_venta){
-        Venta venta = ventaService.getVentaById(id_venta);
+        VentaGetDTO venta = ventaService.getVentaById(id_venta);
 
         return ResponseEntity.ok(venta);
     }
 
     //post
     @PostMapping("/ventas/crear")
-    public ResponseEntity<?> saveVenta(@Valid @RequestBody Venta venta){
+    public ResponseEntity<?> saveVenta(@Valid @RequestBody VentaSaveDTO venta){
         ventaService.saveVenta(venta);
         return ResponseEntity.status(HttpStatus.CREATED).body("Venta creada");
     }
@@ -48,7 +50,7 @@ public class VentaController {
     //put
     @PutMapping("/ventas/editar/{id_venta}")
     //Con valid, se validara el parametro de la peticion
-    public ResponseEntity<?> editVenta(@Valid @RequestBody Venta venta, @PathVariable Long id_venta){
+    public ResponseEntity<?> editVenta(@Valid @RequestBody VentaEditDTO venta, @PathVariable Long id_venta){
         ventaService.editVenta(venta, id_venta);
         return ResponseEntity.status(HttpStatus.OK).body("Venta editada");
     }
