@@ -111,7 +111,7 @@ localhost:8080/ventas/{fecha_venta}
 apellido del cliente de la venta con el monto más alto de todas.
 a. Métodos HTTP: GET
 b. Endpoint:
-localhost:8080/ventas/mayor_venta
+localhost:8080/ventas-productos/mayor_venta
 Tener en cuenta patrón DTO para este escenario
 
 8. BONUS (OPCIONAL)
@@ -127,6 +127,6 @@ especificación a las consignas de este enunciado.
 ---
 
 Por HACER
-- Incluir DTOs y mappers de ventaproducto
-- Ajustar metodos que usen DTO personalizado (los de venta prod)
-- Dockerizar todo y subir final
+- Forma de uso README, 1. crear db xampp 2. ejecutar proyecto 3. ver doc swagger
+- Swagger --> En los endpoints --> @Tag, @Operation, @Schema o Parameter
+- Dockerizar todo y subir final (opcional, puedo subirlo a railway desde github)

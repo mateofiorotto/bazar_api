@@ -4,6 +4,7 @@ import com.mateo.bazar_api.dto.*;
 import com.mateo.bazar_api.model.Venta;
 import com.mateo.bazar_api.model.VentaProducto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -17,9 +18,4 @@ public interface VentaProductoMapper {
     //metodos para post
     VentaProductoSaveDTO ventaProductoToVentaProductoSaveDto(VentaProducto ventaProducto);
     VentaProducto ventaProductoSaveDtoToVentaProducto(VentaProductoSaveDTO ventaProductoSaveDTO);
-
-    //para put
-    VentaProductoEditDTO ventaProductoToVentaEditDto(VentaProducto ventaProducto);
-    VentaProducto ventaProductoEditDtoToVentaProducto(VentaProductoEditDTO ventaProductoEditDTO);
-
 }

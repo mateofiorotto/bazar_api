@@ -1,5 +1,7 @@
 package com.mateo.bazar_api.repository;
 
+import com.mateo.bazar_api.dto.VentaProductoGetDTO;
+import com.mateo.bazar_api.model.Venta;
 import com.mateo.bazar_api.model.VentaProducto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

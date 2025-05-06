@@ -6,14 +6,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class ProductoSaveDTO {
     @NotEmpty(message = "El nombre no puede estar vacio")
     @Size(min = 3, max = 20, message = "El nombre debe tener entre 3 y 20 caracteres")
@@ -31,6 +26,45 @@ public class ProductoSaveDTO {
     @PositiveOrZero(message = "La cantidad disponible debe ser mayor o igual a cero")
     private int cantidad_disponible;
 
-    @JsonIgnore
-    private List<VentaProducto> ventaProductos;
+    public ProductoSaveDTO() {
+    }
+
+    public ProductoSaveDTO(String nombre, String marca, Double costo, int cantidad_disponible) {
+        this.nombre = nombre;
+        this.marca = marca;
+        this.costo = costo;
+        this.cantidad_disponible = cantidad_disponible;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
+    }
+
+    public int getCantidad_disponible() {
+        return cantidad_disponible;
+    }
+
+    public void setCantidad_disponible(int cantidad_disponible) {
+        this.cantidad_disponible = cantidad_disponible;
+    }
 }

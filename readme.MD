@@ -19,6 +19,7 @@
 - Hibernate + JPA (DB Persistence)
 - Maven (Dependencies)
 - Postman (Test API)
+- Swagger (API Basic Endpoints Documentation)
 - XAMPP (Development Environment, Apache, phpmyadmin)
 - IntelliJ Idea (IDE)
 
@@ -45,12 +46,12 @@ One bazaar has increased in sales. Given this and that it is almost impossible t
 - CRUD for clients
 - Get all products that have a stock less than 5
 - Get the list of products of a sale
-- Get the sum of the amount and the total number of sales of a day
-- Get the sale with the highest amount of total and the client who made it
+- Get the sum of the amount and the total number of a sold products in a day
+- Get the sale of a product with the highest amount of total and the client who made it
 
 ### Optional Requirements (not necessary)
-- Additional endpoints
-- Additional models
+- Additional endpoints (SaleProduct Endpoints)
+- Additional models (SaleProduct)
 - DTOs and Mappers (Convert models to DTOs and vice versa, hide data from the user)
 - Validations (@Valid, Annotations in models)
 - Custom Exceptions (ApiException, GlobalExceptionHandler), custom error messages
@@ -79,13 +80,13 @@ del desarrollo de una aplicación que le permita realizar esta tarea.
 - CRUD para clientes
 - Obtener todos los productos con stock menor a 5
 - Obtener la lista de productos de una venta
-- Obtener la sumatoria del monto y tambien la cantidad total de ventas de un dia
-- Obtener la venta con el total mas alto y el cliente que la hizo
+- Obtener la sumatoria del monto y tambien la cantidad total de productos vendidos en un dia
+- Obtener la venta de un producto con el total mas alto y el cliente que la hizo
 
 ### Requerimientos Opcionales (no necesarios)
-- Endpoints adicionales
-- Modelos adicionales
-- DTOs y Mappers (Convertir modelos a DTOs y vice versa, ocultar datos del usuario)
+- Endpoints adicionales (Endpoints de VentaProducto)
+- Modelos adicionales (VentaProducto)
+- DTOs y Mappers (Convertir modelos a DTOs y viceversa, ocultar datos del usuario)
 - Validaciones (@Valid, Anotaciones en modelos)
 - Excepciones personalizadas (ApiException, GlobalExceptionHandler), mensajes de error personalizados
 - Usar ResponseEntity<?>

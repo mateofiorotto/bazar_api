@@ -4,19 +4,51 @@ import com.mateo.bazar_api.model.Producto;
 import com.mateo.bazar_api.model.Venta;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class VentaProductoGetDTO {
-    @NotNull(message = "La venta del producto debe tener el codigo de venta asignado")
     private VentaGetDTO unaVenta;
-    @NotNull(message = "La venta del producto debe tener el codigo de producto asignado")
     private ProductoGetDTO unProducto;
-    @NotNull(message = "Debe haber una cantidad especificada")
-    @Positive(message = "La cantidad debe ser mayor a cero")
     private Integer cantidad;
     private Double total;
+
+    public VentaProductoGetDTO(){};
+
+    public VentaProductoGetDTO(VentaGetDTO unaVenta, ProductoGetDTO unProducto, Integer cantidad, Double total) {
+        this.unaVenta = unaVenta;
+        this.unProducto = unProducto;
+        this.cantidad = cantidad;
+        this.total = total;
+    }
+
+    public VentaGetDTO getUnaVenta() {
+        return unaVenta;
+    }
+
+    public void setUnaVenta(VentaGetDTO unaVenta) {
+        this.unaVenta = unaVenta;
+    }
+
+    public ProductoGetDTO getUnProducto() {
+        return unProducto;
+    }
+
+    public void setUnProducto(ProductoGetDTO unProducto) {
+        this.unProducto = unProducto;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
 }

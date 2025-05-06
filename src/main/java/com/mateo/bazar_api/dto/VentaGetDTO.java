@@ -5,23 +5,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mateo.bazar_api.model.Cliente;
 import com.mateo.bazar_api.model.VentaProducto;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter @Setter
 public class VentaGetDTO {
-    @NotNull(message = "La fecha no puede ser nula")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fecha_venta;
-    @NotNull(message = "La venta debe tener cliente asignado")
+    private LocalDate fechaVenta;
     private ClienteGetDTO unCliente;
 
-    //esta vez si hago el constructor a mano porque si no deberia mandar la lista de prods
-    public VentaGetDTO(LocalDate fecha_venta, ClienteGetDTO unCliente) {
-        this.fecha_venta = fecha_venta;
+    public VentaGetDTO(LocalDate fechaVenta, ClienteGetDTO unCliente) {
+        this.fechaVenta = fechaVenta;
+        this.unCliente = unCliente;
+    }
+
+    public LocalDate getFecha_venta() {
+        return fechaVenta;
+    }
+
+    public void setFecha_venta(LocalDate fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public ClienteGetDTO getUnCliente() {
+        return unCliente;
+    }
+
+    public void setUnCliente(ClienteGetDTO unCliente) {
         this.unCliente = unCliente;
     }
 }

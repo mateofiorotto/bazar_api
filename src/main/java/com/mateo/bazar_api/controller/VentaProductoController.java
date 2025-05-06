@@ -1,7 +1,8 @@
 package com.mateo.bazar_api.controller;
 
-import com.mateo.bazar_api.model.Producto;
-import com.mateo.bazar_api.model.VentaProducto;
+import com.mateo.bazar_api.dto.ProductoGetDTO;
+import com.mateo.bazar_api.dto.VentaProductoGetDTO;
+import com.mateo.bazar_api.dto.VentaProductoSaveDTO;
 import com.mateo.bazar_api.service.VentaProductoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class VentaProductoController {
     // GET
     @GetMapping("/ventas-productos")
     public ResponseEntity<?> getVentasProductos() {
-        List<VentaProducto> ventasProductos = ventaProductoService.getVentasProductos();
+        List<VentaProductoGetDTO> ventasProductos = ventaProductoService.getVentasProductos();
 
         if(ventasProductos.isEmpty()) {
             return ResponseEntity.ok("No hay ventas de productos");
@@ -36,27 +37,18 @@ public class VentaProductoController {
     @GetMapping("/ventas-productos/{id}")
     public ResponseEntity<?> getVentaProductoById(@PathVariable Long id) {
 
-        VentaProducto ventaProducto = ventaProductoService.getVentaProductoById(id);
+        VentaProductoGetDTO ventaProducto = ventaProductoService.getVentaProductoById(id);
 
         return ResponseEntity.ok(ventaProducto);
     }
 
     // post
     @PostMapping("/ventas-productos/crear")
-    public ResponseEntity<?> saveVentaProducto(@Valid @RequestBody VentaProducto ventaProducto) {
+    public ResponseEntity<?> saveVentaProducto(@Valid @RequestBody VentaProductoSaveDTO ventaProducto) {
 
         ventaProductoService.saveVentaProducto(ventaProducto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("VentaProducto creada");
-    }
-
-    //put
-    @PutMapping("/ventas-productos/editar/{id}")
-    public ResponseEntity<?> editVentaProducto(@Valid @RequestBody VentaProducto ventaProducto, @PathVariable Long id) {
-
-        ventaProductoService.editVentaProducto(ventaProducto, id);
-
-        return ResponseEntity.status(HttpStatus.OK).body("VentaProducto editada");
     }
 
     //delete
@@ -71,7 +63,7 @@ public class VentaProductoController {
     // get productos de una venta (ppv = productos por venta)
     @GetMapping("/ventas-productos/ppv/{id}")
     public ResponseEntity<?> getProductosPorVenta(@PathVariable Long id) {
-        List<Producto> productosPorVenta = ventaProductoService.getProductosPorVenta(id);
+        List<ProductoGetDTO> productosPorVenta = ventaProductoService.getProductosPorVenta(id);
 
         if(productosPorVenta.isEmpty()) {
             return ResponseEntity.ok("No hay productos por venta");
@@ -91,6 +83,6 @@ public class VentaProductoController {
     @GetMapping("/ventas-productos/total-cmyv/{fecha}")
     public ResponseEntity<?> montoTotalYCantidadDeVentasDeUnDia(@PathVariable LocalDate fecha){
 
-        return ResponseEntity.ok(ventaProductoService.montoTotalYCantidadDeVentasDeUnDia(fecha));
+        return ResponseEntity.ok(ventaProductoService.montoTotalYCantidadDeVentasDeProductosDeUnDia(fecha));
     }
 }

@@ -1,7 +1,11 @@
 package com.mateo.bazar_api.service;
 
+import com.mateo.bazar_api.dto.*;
 import com.mateo.bazar_api.exception.BadRequestException;
 import com.mateo.bazar_api.exception.NotFoundException;
+import com.mateo.bazar_api.mapper.ProductoMapper;
+import com.mateo.bazar_api.mapper.VentaMapper;
+import com.mateo.bazar_api.mapper.VentaProductoMapper;
 import com.mateo.bazar_api.model.Producto;
 import com.mateo.bazar_api.model.Venta;
 import com.mateo.bazar_api.model.VentaProducto;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaProductoService implements IVentaProductoService {
@@ -28,75 +33,71 @@ public class VentaProductoService implements IVentaProductoService {
     }
 
     @Override
-    public List<VentaProducto> getVentasProductos() {
+    public List<VentaProductoGetDTO> getVentasProductos() {
         List<VentaProducto> ventasProductos = ventaProductoRepository.findAll();
 
-        return ventasProductos;
+        return ventasProductos.stream()
+                .map(vp -> VentaProductoMapper.mapper.ventaProductoToVentaProductoGetDto(vp))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public VentaProducto getVentaProductoById(Long id) {
+    public VentaProductoGetDTO getVentaProductoById(Long id) {
         VentaProducto ventaProducto = ventaProductoRepository.findById(id).orElseThrow(
                 //si no encuentra al ventaProducto, retornar un no encontrado
                 () -> new NotFoundException("VentaProducto no encontrado")
         );
 
-        return ventaProducto;
+        return VentaProductoMapper.mapper.ventaProductoToVentaProductoGetDto(ventaProducto);
     }
 
     @Override
-    public void saveVentaProducto(VentaProducto ventaProducto) {
-        if (ventaProducto.getUnProducto() == null || ventaProducto.getUnaVenta() == null || ventaProducto.getCantidad() == 0) {
+    public void saveVentaProducto(VentaProductoSaveDTO ventaProductoDTO) {
+        if (ventaProductoDTO.getUnProducto() == null || ventaProductoDTO.getUnaVenta() == null || ventaProductoDTO.getCantidad() == 0) {
             throw new BadRequestException("VentaProducto no válido");
         }
 
+       //validar si el codigo del producto ya existe en la venta
+        List<VentaProducto> productosDeEsaVenta = ventaProductoRepository.findAll();
+
+        for (VentaProducto vp : productosDeEsaVenta) {
+            if (vp.getUnaVenta().getCodigo_venta().equals(ventaProductoDTO.getUnaVenta().getCodigo_venta()) &&
+                    vp.getUnProducto().getCodigo_producto().equals(ventaProductoDTO.getUnProducto().getCodigo_producto())) {
+                throw new BadRequestException("Este producto ya está agregado a esta venta");
+            }
+        }
         //obtengo el prod desde la db con la id
-        Producto producto = productoRepository.findById(ventaProducto.getUnProducto().getCodigo_producto())
+        Producto producto = productoRepository.findById(ventaProductoDTO.getUnProducto().getCodigo_producto())
                 .orElseThrow(() -> new NotFoundException("Producto no encontrado"));
 
+        ProductoEditDTO productoEdit = ProductoMapper.mapper.productoToProductoEditDto(producto);
+
         //mismo con la venta
-        Venta venta = ventaRepository.findById(ventaProducto.getUnaVenta().getCodigo_venta())
+        Venta venta = ventaRepository.findById(ventaProductoDTO.getUnaVenta().getCodigo_venta())
                 .orElseThrow(() -> new NotFoundException("Venta no encontrada"));
 
-        manejoStock(ventaProducto, producto);
+        VentaEditDTO ventaEdit = VentaMapper.mapper.ventaToVentaEditDto(venta);
 
-        //asignar objetos completos a ventaProducto. CantidadDisponible se reta a la cantidad q compramos
-        ventaProducto.setUnProducto(producto);
-        ventaProducto.setUnaVenta(venta);
+
+        manejoStock(ventaProductoDTO, producto);
+
+        //asignar objetos completos a ventaProducto. CantidadDisponible se resta a la cantidad q compramos
+        ventaProductoDTO.setUnProducto(productoEdit);
+        ventaProductoDTO.setUnaVenta(ventaEdit);
 
 
         //calcular total
-        ventaProducto.setTotal(producto.getCosto() * ventaProducto.getCantidad());
+        ventaProductoDTO.setTotal(producto.getCosto() * ventaProductoDTO.getCantidad());
 
         //Guardar
-        ventaProductoRepository.save(ventaProducto);
-    }
-
-    @Override
-    public void editVentaProducto(VentaProducto ventaProducto, Long id) {
-        VentaProducto ventaProductoEncontrado = this.getVentaProductoById(id);
-
-        Producto produc = productoRepository.findById(ventaProducto.getUnProducto().getCodigo_producto())
-                .orElseThrow(() -> new NotFoundException("Producto no encontrado"));
-
-        //seteo la id y lo mando a manejostock asi puedo modificar el ventaPROD viejo
-        ventaProducto.setId(id); // muy importante
-        manejoStock(ventaProducto, produc);
-
-        ventaProductoEncontrado.setUnProducto(ventaProducto.getUnProducto());
-        ventaProductoEncontrado.setUnaVenta(ventaProducto.getUnaVenta());
-        ventaProductoEncontrado.setCantidad(ventaProducto.getCantidad());
-        ventaProductoEncontrado.setTotal(ventaProducto.getTotal());
-
-        Producto producto = productoRepository.findById(ventaProducto.getUnProducto().getCodigo_producto())
-                .orElseThrow(() -> new NotFoundException("Producto no encontrado"));
-
-        this.saveVentaProducto(ventaProductoEncontrado);
+        ventaProductoRepository.save(VentaProductoMapper.mapper.ventaProductoSaveDtoToVentaProducto(ventaProductoDTO));
     }
 
     @Override
     public void deleteVentaProducto(Long id) {
-        VentaProducto ventaProductoAEliminar = this.getVentaProductoById(id);
+        VentaProducto ventaProductoAEliminar = ventaProductoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("VentaProducto No encontrado"));
+
         Producto producto = ventaProductoAEliminar.getUnProducto();
 
         //devolviendo stock en caso de eliminar venta
@@ -108,36 +109,18 @@ public class VentaProductoService implements IVentaProductoService {
 
     //metodo para manejar stock en POST y PUT
     @Override
-    public void manejoStock(VentaProducto ventaProducto, Producto producto) {
-        int cantidadVieja = 0;
+    public void manejoStock(VentaProductoSaveDTO ventaProducto, Producto producto) {
 
-        //obtener viejo valor, para comparar la cant vieja con la nueva que se carga x postman
-        if (ventaProducto.getId() != null) {
-            VentaProducto ventaProductoViejo = ventaProductoRepository.findById(ventaProducto.getId())
-                    .orElseThrow(() -> new NotFoundException("VentaProducto no encontrado"));
-            cantidadVieja = ventaProductoViejo.getCantidad();
-        }
-
-        int cantidadNueva = ventaProducto.getCantidad();
-
-        int diferencia = cantidadNueva - cantidadVieja;
-
-        // Si la dif es menor a 0 entonces no hay stock
-        if (diferencia > 0) {
-            if (diferencia > producto.getCantidad_disponible()) {
-                throw new BadRequestException("No hay stock suficiente");
-            }
-            //la cant disponible del producto sera a la cantidad Disponible - diferencia entre la cant nueva y vieja
-            producto.setCantidad_disponible(producto.getCantidad_disponible() - diferencia);
-        } else if (diferencia < 0) {
-            //Devolver stock
-            producto.setCantidad_disponible(producto.getCantidad_disponible() + Math.abs(diferencia));
+        if (ventaProducto.getCantidad() > producto.getCantidad_disponible()) {
+            throw new BadRequestException("No hay stock suficiente");
+        } else {
+            producto.setCantidad_disponible(producto.getCantidad_disponible() - ventaProducto.getCantidad());
         }
     }
 
     @Override
-    public List<Producto> getProductosPorVenta(Long id) {
-        List<VentaProducto> listaVentasProductos = this.getVentasProductos();
+    public List<ProductoGetDTO> getProductosPorVenta(Long id) {
+        List<VentaProducto> listaVentasProductos = ventaProductoRepository.findAll();
         List<Producto> listaSoloProductos = new ArrayList<>();
 
         for ( VentaProducto vp : listaVentasProductos ){
@@ -145,23 +128,27 @@ public class VentaProductoService implements IVentaProductoService {
                 listaSoloProductos.add(vp.getUnProducto());
             }
         }
-        return listaSoloProductos;
+        return listaSoloProductos.stream()
+                .map(p -> ProductoMapper.mapper.productoToProductoGetDto(p))
+                .collect(Collectors.toList());
     }
 
     @Override
     //POR EL momento devolvemos todo venta producto ya que no usamos dto
-    public VentaProducto getTotalMasAlto() {
-        return ventaProductoRepository.findTopByOrderByTotalDesc().orElse(null);
+    public VentaProductoGetDTO getTotalMasAlto() {
+        VentaProducto totalMasAlto = ventaProductoRepository.findTopByOrderByTotalDesc().orElse(null);
+
+        return VentaProductoMapper.mapper.ventaProductoToVentaProductoGetDto(totalMasAlto);
     }
 
+    //devuelve la cantidad de ventas en x fecha y el monto total de la suma de productos
     @Override
-    public String montoTotalYCantidadDeVentasDeUnDia(LocalDate fecha) {
-        List<VentaProducto> listaProductos = this.getVentasProductos();
+    public String montoTotalYCantidadDeVentasDeProductosDeUnDia(LocalDate fecha) {
+        List<VentaProductoGetDTO> listaProductos = this.getVentasProductos();
         int total = 0;
         int cantVentas = 0;
 
-        for (VentaProducto p : listaProductos){
-            System.out.println(p.getUnaVenta().getFecha_venta());
+        for (VentaProductoGetDTO p : listaProductos){
             if(p.getUnaVenta().getFecha_venta().equals(fecha)){
                 total+=p.getTotal();
                 cantVentas++;
@@ -169,10 +156,10 @@ public class VentaProductoService implements IVentaProductoService {
         }
 
         if(cantVentas == 0){
-            return "No hubo ventas ese dia";
+            return "No hubo productos vendidos ese dia";
         }
 
-        return "El monto total del dia " + fecha + " es: " + total + " y la cantidad de ventas: " + cantVentas;
+        return "El monto total del dia " + fecha + " es: " + total + " y la cantidad de productos vendidos: " + cantVentas;
     }
 }
 
