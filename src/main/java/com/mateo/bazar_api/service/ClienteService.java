@@ -12,11 +12,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+* Servicio que maneja la logica de negocio relacionada a clientes
+* Puede obtener, guardar, editar y eliminar clientes
+* */
 @Service
 public class ClienteService implements IClienteService {
     //DI
     private final IClienteRepository clienteRepository;
 
+    /*
+    * Constructor con inyeccion de dependencias
+    * */
     public ClienteService(IClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }

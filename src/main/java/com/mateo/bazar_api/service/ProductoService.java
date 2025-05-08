@@ -16,11 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * Servicio que maneja la logica de negocio relacionada a productos
+ * Puede obtener, guardar, editar y eliminar productos
+ * Tambien puede devolver productos que tengan una cantidad disponible menor a 5
+ * */
 @Service
 public class ProductoService implements IProductoService {
     //DI
     private final IProductoRepository productoRepository;
 
+    /*
+     * Constructor con inyeccion de dependencias
+     * */
     public ProductoService(IProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
     }

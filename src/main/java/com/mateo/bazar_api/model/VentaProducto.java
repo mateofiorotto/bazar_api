@@ -3,22 +3,57 @@ package com.mateo.bazar_api.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
+/**
+ * Entidad intermedia que representa la relacion entre una {@link Venta} y un {@link Producto},
+ * incluyendo la cantidad comprada y el total de la venta para ese producto.
+ */
 @Entity
 public class VentaProducto {
+    /*
+    * Id de VentaProducto
+    * */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    /*
+    * Venta asociada
+    * */
     @ManyToOne
     @JoinColumn(name = "codigo_venta", nullable = false)
     private Venta unaVenta;
+
+    /*
+    * Producto asociado
+    * */
     @ManyToOne
     @JoinColumn(name = "codigo_producto", nullable = false)
     private Producto unProducto;
+
+    /*
+    * Cantidad del producto comprado
+    * */
     private Integer cantidad;
+
+    /*
+    * Total que se calcula automaticamente
+    * */
     private Double total;
 
+    /*
+     * Constructor vacio
+     */
     public VentaProducto(){};
 
+    /**
+     * Constructor completo para crear un objeto {@code VentaProducto}.
+     *
+     * @param id         ID del registro
+     * @param unaVenta   Venta asociada
+     * @param unProducto Producto vendido
+     * @param cantidad   Cantidad vendida
+     * @param total      Total del producto vendido
+     */
     public VentaProducto(Long id, Venta unaVenta, Producto unProducto, Integer cantidad, Double total) {
         this.id = id;
         this.unaVenta = unaVenta;

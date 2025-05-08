@@ -18,12 +18,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * Servicio que maneja la logica de negocio relacionada a ventas
+ * Puede obtener, guardar, editar y eliminar ventas
+ * */
 @Service
 public class VentaService implements IVentaService {
     //DI
     private final IVentaRepository ventaRepository;
     private final IClienteRepository clienteRepository;
 
+    /*
+     * Constructor con inyeccion de dependencias
+     * */
     public VentaService(IVentaRepository ventaRepository, IClienteRepository clienteRepository) {
         this.ventaRepository = ventaRepository;
         this.clienteRepository = clienteRepository;
@@ -47,12 +54,12 @@ public class VentaService implements IVentaService {
     }
 
     @Override
-    public void saveVenta(VentaSaveDTO ventaSaveDTO) {
-        Venta venta = VentaMapper.mapper.ventaSaveDtoToVenta(ventaSaveDTO);
-        venta.setFecha_venta(ventaSaveDTO.getFecha_venta());
+    public void saveVenta(VentaSaveDTO ventaDTO) {
+        Venta venta = VentaMapper.mapper.ventaSaveDtoToVenta(ventaDTO);
+        venta.setFecha_venta(ventaDTO.getFecha_venta());
 
         Cliente cliente = clienteRepository.findById(
-                ventaSaveDTO.getUnCliente().getId_cliente()).orElseThrow(() ->
+                ventaDTO.getUnCliente().getId_cliente()).orElseThrow(() ->
                 new NotFoundException("Cliente no encontrado"));
 
         venta.setUnCliente(cliente);
@@ -61,18 +68,18 @@ public class VentaService implements IVentaService {
     }
 
     @Override
-    public void editVenta(VentaEditDTO ventaEditDTO, Long id) {
+    public void editVenta(VentaEditDTO ventaDTO, Long id) {
         Venta ventaEncontrada = ventaRepository.findById(id).orElseThrow(
                 //si no encuentra al venta, retornar un no encontrado
                 () -> new NotFoundException("Venta no encontrada")
         );
 
         Cliente cliente = clienteRepository.findById(
-                ventaEditDTO.getUnCliente().getId_cliente()).orElseThrow(() ->
+                ventaDTO.getUnCliente().getId_cliente()).orElseThrow(() ->
                 new NotFoundException("Cliente no encontrado"));
 
 
-        ventaEncontrada.setFecha_venta(ventaEditDTO.getFecha_venta());
+        ventaEncontrada.setFecha_venta(ventaDTO.getFecha_venta());
         ventaEncontrada.setUnCliente(cliente);
 
         ventaRepository.save(ventaEncontrada);

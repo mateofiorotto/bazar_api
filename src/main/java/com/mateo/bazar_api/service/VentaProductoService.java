@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * Servicio que maneja la logica de negocio relacionada a la venta de productos
+ * Puede obtener, guardar y eliminar ventas de productos.
+ * Tambien puede manejar el stock de producto, devolver el total mas alto,
+ * devolver el total y cantidad de ventas de un dia especifico y los productos
+ * por venta especifica
+ * */
 @Service
 public class VentaProductoService implements IVentaProductoService {
     //DI
@@ -26,6 +33,9 @@ public class VentaProductoService implements IVentaProductoService {
     private final IVentaRepository ventaRepository;
     private final IProductoRepository productoRepository;
 
+    /*
+     * Constructor con inyeccion de dependencias
+     * */
     public VentaProductoService(IVentaProductoRepository ventaProductoRepository, IVentaRepository ventaRepository, IProductoRepository productoRepository) {
         this.ventaProductoRepository = ventaProductoRepository;
         this.ventaRepository = ventaRepository;
@@ -120,10 +130,12 @@ public class VentaProductoService implements IVentaProductoService {
 
     @Override
     public List<ProductoGetDTO> getProductosPorVenta(Long id) {
+        //definimos lista de ventas de productos y una lista nueva tipo producto
         List<VentaProducto> listaVentasProductos = ventaProductoRepository.findAll();
         List<Producto> listaSoloProductos = new ArrayList<>();
 
         for ( VentaProducto vp : listaVentasProductos ){
+            //si la id ingresada es igual al codigo de venta, entonces agregar los productos
             if (id.equals(vp.getUnaVenta().getCodigo_venta())) {
                 listaSoloProductos.add(vp.getUnProducto());
             }
@@ -136,7 +148,7 @@ public class VentaProductoService implements IVentaProductoService {
     @Override
     //POR EL momento devolvemos todo venta producto ya que no usamos dto
     public VentaProductoGetDTO getTotalMasAlto() {
-        VentaProducto totalMasAlto = ventaProductoRepository.findTopByOrderByTotalDesc().orElse(null);
+        VentaProducto totalMasAlto = ventaProductoRepository.findTopByOrderByTotalDesc().orElseThrow(() -> new NotFoundException("No se encontraron productos"));
 
         return VentaProductoMapper.mapper.ventaProductoToVentaProductoGetDto(totalMasAlto);
     }
@@ -148,6 +160,7 @@ public class VentaProductoService implements IVentaProductoService {
         int total = 0;
         int cantVentas = 0;
 
+        //si la fecha equivale a la que ingreso el user, sumar el total por cada producto y la cant ventas
         for (VentaProductoGetDTO p : listaProductos){
             if(p.getUnaVenta().getFecha_venta().equals(fecha)){
                 total+=p.getTotal();

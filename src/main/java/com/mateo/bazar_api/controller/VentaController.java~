@@ -95,7 +95,7 @@ public class VentaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Venta editada exitosamente"),
             @ApiResponse(responseCode = "400", description = "Datos inválidos para editar la venta"),
-            @ApiResponse(responseCode = "404", description = "Venta no encontrada / Cliente no existe")
+            @ApiResponse(responseCode = "404", description = "Venta no encontrada")
     })
     //Con valid, se validara el parametro de la peticion
     public ResponseEntity<?> editVenta(@Valid @RequestBody VentaEditDTO venta, @PathVariable Long id_venta){

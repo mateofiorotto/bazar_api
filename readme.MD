@@ -19,7 +19,8 @@
 - Hibernate + JPA (DB Persistence)
 - Maven (Dependencies)
 - Postman (Test API)
-- Swagger (API Basic Endpoints Documentation)
+- JavaDoc (Methods docs)
+- Swagger, SpringDoc OpenAPI (API Basic Endpoints Documentation)
 - XAMPP (Development Environment, Apache, phpmyadmin)
 - IntelliJ Idea (IDE)
 
@@ -56,6 +57,7 @@ One bazaar has increased in sales. Given this and that it is almost impossible t
 - Validations (@Valid, Annotations in models)
 - Custom Exceptions (ApiException, GlobalExceptionHandler), custom error messages
 - Use ResponseEntity<?>
+- Javadoc and Swagger (With Springdoc)
 
 ### How to use
 1. Clone repository
@@ -135,6 +137,7 @@ del desarrollo de una aplicación que le permita realizar esta tarea.
 - Validaciones (@Valid, Anotaciones en modelos)
 - Excepciones personalizadas (ApiException, GlobalExceptionHandler), mensajes de error personalizados
 - Usar ResponseEntity<?>
+- Javadoc y Swagger (con Springdoc)
 
 ### Como usarlo
 1. Clone repository
