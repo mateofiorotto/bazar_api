@@ -24,9 +24,13 @@
 - XAMPP (Development Environment, Apache, phpmyadmin)
 - IntelliJ Idea (IDE)
 
+---
 
-- [Go to documentation in English](#ENG)
-- [Ir a documentación en Español](#ESP)
+### [Go to documentation in English](#ENG)
+
+<br>
+
+### [Ir a documentación en Español](#ESP)
 
 ---
 
