@@ -17,6 +17,7 @@
   - Spring Data JPA
   - Spring Web
 - Hibernate + JPA (DB Persistence)
+- MapStruct and DTOS
 - Maven (Dependencies)
 - Postman (Test API)
 - JavaDoc (Methods docs)
